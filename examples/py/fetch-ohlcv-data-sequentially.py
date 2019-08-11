@@ -47,7 +47,7 @@ while from_timestamp < now:
     try:
 
         print('Fetching candles starting from', exchange.iso8601(from_timestamp))
-        ohlcvs = exchange.fetch_ohlcv('BTC/USDT', '1m', from_timestamp)
+        ohlcvs = exchange.fetch_ohlcv('BTC/USDT', '1m', from_timestamp, limit=3000)
         print('Fetched', len(ohlcvs), 'candles')
         first = ohlcvs[0][0]
         last = ohlcvs[-1][0]
