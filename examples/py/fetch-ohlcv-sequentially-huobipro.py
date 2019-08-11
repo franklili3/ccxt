@@ -22,7 +22,7 @@ hold = 30
 
 # -----------------------------------------------------------------------------
 
-exchange = ccxt.okex({
+exchange = ccxt.huobipro({
     'rateLimit': 3000,
     'enableRateLimit': True,
     # 'verbose': True,
@@ -61,4 +61,4 @@ while from_timestamp < now:
         print('Got an error', type(error).__name__, error.args, ', retrying in', hold, 'seconds...')
         time.sleep(hold)
 data_df = pd.DataFrame(data)
-data_df.to_csv('okex_BTC/USDT_1m_' + from_datetime[0:10] + '.csv')
+data_df.to_csv('huobipro_BTC/USDT_1m_' + from_datetime[0:10] + '.csv')
