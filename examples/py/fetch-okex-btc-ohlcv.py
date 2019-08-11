@@ -26,7 +26,11 @@ timeframe = '1m'
 from_datetime = '2017-01-01 00:00:00'
 
 from_timestamp = exchange.parse8601(from_datetime)
-data = exchange.fetch_ohlcv(symbol, timeframe, from_timestamp)
+ohlcv = exchange.fetch_ohlcv(symbol, timeframe, from_timestamp)
+first = ohlcv[0][0]
+last = ohlcv[-1][0]
+print('First candle datetime', exchange.iso8601(first))
+print('Last candle datetime', exchange.iso8601(last))
 time.sleep(exchange.rateLimit / 1000)
-data_df = pd.DataFrame(data)
+data_df = pd.DataFrame(ohlcv)
 data_df.to_csv('okex_' + symbol + '_' + timeframe + '_' + from_datetime[0:10] + '.csv')
