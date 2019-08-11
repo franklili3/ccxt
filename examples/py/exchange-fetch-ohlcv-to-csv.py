@@ -76,4 +76,4 @@ def scrape_candles_to_csv(filename, exchange_id, max_retries, symbol, timeframe,
 
 # -----------------------------------------------------------------------------
 
-scrape_candles_to_csv('binance_2016-01-01.csv', 'binance', 3, 'BTC/USDT', '1m', '2015-01-01T00:00:00Z', 100)
+scrape_candles_to_csv('bitz_2016-01-01.csv', 'bitz', 3, 'BTC/USDT', '1m', '2016-01-01T00:00:00Z', 1000)
