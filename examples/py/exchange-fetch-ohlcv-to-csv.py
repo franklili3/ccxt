@@ -3,6 +3,7 @@
 import os
 import sys
 import csv
+import cfscrape
 
 # -----------------------------------------------------------------------------
 
@@ -16,14 +17,17 @@ import ccxt  # noqa: E402
 
 def retry_fetch_ohlcv(exchange, max_retries, symbol, timeframe, since, limit):
     num_retries = 0
-    try:
-        num_retries += 1
-        ohlcv = exchange.fetch_ohlcv(symbol, timeframe, since, limit)
-        # print('Fetched', len(ohlcv), symbol, 'candles from', exchange.iso8601 (ohlcv[0][0]), 'to', exchange.iso8601 (ohlcv[-1][0]))
-        return ohlcv
-    except Exception:
-        if num_retries > max_retries:
-            raise  # Exception('Failed to fetch', timeframe, symbol, 'OHLCV in', max_retries, 'attempts')
+    success = False
+    while not success:
+        try:
+            num_retries += 1
+            ohlcv = exchange.fetch_ohlcv(symbol, timeframe, since, limit)
+            print('Fetched', len(ohlcv), symbol, 'candles from', exchange.iso8601 (ohlcv[0][0]), 'to', exchange.iso8601 (ohlcv[-1][0]))
+            success = True
+            return ohlcv
+        except Exception:
+            if num_retries > max_retries:
+                raise Exception('Failed to fetch', timeframe, symbol, 'OHLCV in', max_retries, 'attempts')
 
 
 def scrape_ohlcv(exchange, max_retries, symbol, timeframe, since, limit):
@@ -59,8 +63,12 @@ def write_to_csv(filename, data):
 
 def scrape_candles_to_csv(filename, exchange_id, max_retries, symbol, timeframe, since, limit):
     # instantiate the exchange by id
+    #exchange = getattr(ccxt, exchange_id)({
+    #    'enableRateLimit': True,  # required by the Manual
+    #})
     exchange = getattr(ccxt, exchange_id)({
-        'enableRateLimit': True,  # required by the Manual
+            'timeout': 20000,
+            'session': cfscrape.create_scraper(),
     })
     # convert since from string to milliseconds integer if needed
     if isinstance(since, str):
@@ -76,4 +84,4 @@ def scrape_candles_to_csv(filename, exchange_id, max_retries, symbol, timeframe,
 
 # -----------------------------------------------------------------------------
 
-scrape_candles_to_csv('lbank_2016-01-01.csv', 'lbank', 3, 'BTC/USDT', '1m', '2016-01-01T00:00:00Z', 1000)
+scrape_candles_to_csv('bitforex_2016-01-01.csv', 'bitforex', 10, 'BTC/USDT', '1m', '2016-01-01T00:00:00Z', 1000)
