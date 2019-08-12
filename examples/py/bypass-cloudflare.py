@@ -96,6 +96,7 @@ try:
         exchange = getattr(ccxt, id)({
             'timeout': 20000,
             'session': cfscrape.create_scraper(),
+            'enableRateLimit': True,  # required by the Manual
         })
 
         try:
