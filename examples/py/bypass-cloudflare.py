@@ -39,6 +39,7 @@ try:
 
             # output a list of all market symbols
             print(id + ' has ' + str(len(exchange.symbols)) + ' symbols: ' + ', '.join(exchange.symbols))
+            print(id + ' has ' + str(len(exchange.symbols)) + ' symbols: ' + ', '.join(exchange.symbols))
             print('Succeeded.')
 
         except ccxt.BaseError as e:
