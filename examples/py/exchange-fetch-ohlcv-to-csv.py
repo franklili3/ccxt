@@ -16,14 +16,17 @@ import ccxt  # noqa: E402
 
 def retry_fetch_ohlcv(exchange, max_retries, symbol, timeframe, since, limit):
     num_retries = 0
-    try:
-        num_retries += 1
-        ohlcv = exchange.fetch_ohlcv(symbol, timeframe, since, limit)
-        # print('Fetched', len(ohlcv), symbol, 'candles from', exchange.iso8601 (ohlcv[0][0]), 'to', exchange.iso8601 (ohlcv[-1][0]))
-        return ohlcv
-    except Exception:
-        if num_retries > max_retries:
-            raise  # Exception('Failed to fetch', timeframe, symbol, 'OHLCV in', max_retries, 'attempts')
+    success = False
+    while not success:
+        try:
+            num_retries += 1
+            ohlcv = exchange.fetch_ohlcv(symbol, timeframe, since, limit)
+            print('Fetched', len(ohlcv), symbol, 'candles from', exchange.iso8601 (ohlcv[0][0]), 'to', exchange.iso8601 (ohlcv[-1][0]))
+            success = True
+            return ohlcv
+        except Exception:
+            if num_retries > max_retries:
+                raise Exception('Failed to fetch', timeframe, symbol, 'OHLCV in', max_retries, 'attempts')
 
 
 def scrape_ohlcv(exchange, max_retries, symbol, timeframe, since, limit):
