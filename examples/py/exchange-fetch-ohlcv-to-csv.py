@@ -66,7 +66,7 @@ def scrape_candles_to_csv(filename, exchange_id, max_retries, symbol, timeframe,
     if isinstance(since, str):
         since = exchange.parse8601(since)
     # preload all markets from the exchange
-    exchange.load_markets()
+    #exchange.load_markets()
     # fetch all candles
     ohlcv = scrape_ohlcv(exchange, max_retries, symbol, timeframe, since, limit)
     # save them to csv file
