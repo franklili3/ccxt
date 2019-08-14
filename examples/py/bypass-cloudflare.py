@@ -107,7 +107,7 @@ try:
             # output a list of all market symbols
             print(id + ' has ' + str(len(exchange.symbols)) + ' symbols: ' + ', '.join(exchange.symbols))
             print('Succeeded.')
-            scrape_candles_to_csv(id + '_2016-01-01.csv', id, 100, 'BTC/USDT', '1m', '2016-01-01T00:00:00Z', 1000, exchange)
+            scrape_candles_to_csv(id + '_2017-08-20.csv', id, 100, 'BTC/USDT', '1m', '2017-08-20T08:45:00Z', 1000, exchange)
 
         except ccxt.BaseError as e:
 
